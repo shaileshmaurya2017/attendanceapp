@@ -1,0 +1,44 @@
+
+
+.loginform{
+	
+	position: absolute;
+  	top: 20%;
+  	left: 40%;
+  	height: 400px;
+  	width: 250px;
+  /*	transform: translate(-50%, -50%);*/
+}
+
+form {
+  width: 100%;
+  height: 350px;
+}
+
+.ahome-div{
+	
+	width: 100%;	
+	height: 350px;
+}
+.logindiv{
+	position: absolute;
+  	top: 300px;
+  	
+  	
+}
+
+.viewreportdiv{
+	position: absolute;
+  	top: 300px;
+	
+}
+.signdiv{
+	
+	position: absolute;
+  	top: 100px;
+}
+.regbtndiv
+{
+	position: absolute;
+  	top: 300px;
+}
