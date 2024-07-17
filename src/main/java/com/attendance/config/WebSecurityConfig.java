@@ -94,7 +94,7 @@ public class WebSecurityConfig {
 	              //  auth -> auth.anyRequest().authenticated();
 	        		Customizer ->{
 	        			//Customizer.requestMatchers("/").authenticated();
-	        			Customizer.requestMatchers("/","/register","/doregister","/checklogin","../static/").permitAll();
+	        			Customizer.requestMatchers("/","/register","/doregister","/checklogin","././static/**").permitAll();
 	        			Customizer.requestMatchers("/adminreport").hasAuthority("admin");
 	        			Customizer.requestMatchers("/attendencehome").hasAuthority("user");
 	        			//Customizer.requestMatchers("/checklogin").hasAuthority("user","admin");
@@ -107,7 +107,7 @@ public class WebSecurityConfig {
 	        		);
 		 
 	        http.formLogin(Customizer -> Customizer.loginPage("/").loginProcessingUrl("/checklogin")
-	    		 	.defaultSuccessUrl("/attendencehome", true));
+	    		 	.defaultSuccessUrl("/loginsuccess", true));
 			
 			http.csrf(Customizer -> Customizer.disable());
 

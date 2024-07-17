@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -325,5 +326,17 @@ public class LoginController {
 		return "attendancereport";
 	}
 	
-
+	@GetMapping("/loginsuccess")
+	public String onSuccesslogin(@AuthenticationPrincipal UserDetails userDetails)
+	{
+		if(userDetails.getAuthorities().contains(new SimpleGrantedAuthority("admin")))
+		{
+			return "redirect:/adminreport";
+		}
+		return "redirect:/attendencehome";
+		
+		
+	}
+		
+	
 }
