@@ -57,7 +57,7 @@ public class WebSecurityConfig {
 	
 		 http.authorizeHttpRequests(
 	        		Customizer ->{
-	        			Customizer.requestMatchers("/","/register","/doregister","/checklogin","././static/**").permitAll();
+	        			Customizer.requestMatchers("/","/register","/doregister","/checklogin","/bootstrap.min.css","/style.css").permitAll();
 	        			Customizer.requestMatchers("/adminreport").hasAuthority("admin");
 	        			Customizer.requestMatchers("/attendencehome").hasAuthority("user");
 	        			Customizer.requestMatchers("/attendancereportadmin/*","/*").authenticated();
