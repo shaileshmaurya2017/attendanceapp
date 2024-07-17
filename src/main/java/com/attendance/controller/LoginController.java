@@ -251,7 +251,6 @@ public class LoginController {
 		model.addAttribute("userid",user.getId());
 		return "attendancereport";
 	}
-	//@PreAuthorize("hasRole('admin')")
 	@GetMapping("/adminreport")
 	public String getAdminreport(Model model,@AuthenticationPrincipal UserDetails userDetails) 
 	{

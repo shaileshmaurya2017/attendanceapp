@@ -23,7 +23,6 @@ import com.attendance.model.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
-//@EnableMethodSecurity
 public class WebSecurityConfig {
 
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
@@ -55,55 +54,15 @@ public class WebSecurityConfig {
 	 @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	     
-		// AuthenticationManagerBuilder builder = http.getSharedObject(AuthenticationManagerBuilder.class);
-		 
-//		 builder.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
-//		 AuthenticationManager manager = builder.build();
-		 
-		 /*http
-		 	.authorizeHttpRequests()
-		 	.requestMatchers("/index","/register","/doregister").permitAll()
-		 	.requestMatchers("/adminreport").hasRole("admin")
-		 	.requestMatchers("/attendencehome").hasAuthority("user")
-		 	.anyRequest().authenticated()
-		 	//.anyRequest().denyAll()
-		 	.and()
-		 	.formLogin()
-		 	.loginPage("/")
-		 	.loginProcessingUrl("/checklogin")
-		 	.defaultSuccessUrl("/attendencehome", true)
-		 	.permitAll()
-		 	.and()
-		 	.logout().permitAll()
-		 	.and()
-		 	.csrf().disable()
-		 	.authenticationManager(manager)
-		 	.httpBasic()
-		 	;*/
-		/* return http
-		 	.formLogin(form -> form.loginPage("/").permitAll())
-		 	.authorizeHttpRequests(auth->auth
-		 			.requestMatchers("/register").permitAll()
-		 			.requestMatchers("/doregister").permitAll()
-		 			.requestMatchers("./static/*").permitAll()
-		 			.requestMatchers("/checklogin").permitAll()
-		 			//.requestMatchers("/*").authenticated()
-		 			.anyRequest().authenticated()).build();*/
-		 //http.httpBasic(Customizer.withDefaults());
+	
 		 http.authorizeHttpRequests(
-	              //  auth -> auth.anyRequest().authenticated();
 	        		Customizer ->{
-	        			//Customizer.requestMatchers("/").authenticated();
 	        			Customizer.requestMatchers("/","/register","/doregister","/checklogin","././static/**").permitAll();
 	        			Customizer.requestMatchers("/adminreport").hasAuthority("admin");
 	        			Customizer.requestMatchers("/attendencehome").hasAuthority("user");
-	        			//Customizer.requestMatchers("/checklogin").hasAuthority("user","admin");
 	        			Customizer.requestMatchers("/attendancereportadmin/*","/*").authenticated();
-	        			//Customizer.requestMatchers("/*").denyAll();
 	        			Customizer.anyRequest().authenticated();
-	        			
 	        		}
-	        		
 	        		);
 		 
 	        http.formLogin(Customizer -> Customizer.loginPage("/").loginProcessingUrl("/checklogin")
@@ -119,8 +78,6 @@ public class WebSecurityConfig {
 				logout.clearAuthentication(true);
 				logout.addLogoutHandler(clearsitedata);
 			});
-			//http.formLogin(loginCustomizer->{loginCustomizer.loginPage("/");}); 
-				      
 			http.userDetailsService(userDetailsService());
 		 return http.build();
 	    }
