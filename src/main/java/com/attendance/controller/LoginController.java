@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -85,10 +86,20 @@ public class LoginController {
 		System.out.println("in /checklogin");
 		if(!user.getUsername().equals("")&& !user.getPassword().equals("")) {
 			
-			if(user.getUsername().equals("admin")&& user.getPassword().equals("admin"))
+			if(user.getUsername().equals("admin"))
 			{
 				//session.setAttribute("user", user.getUsername());
-				return "redirect:/adminreport";
+				User uentity   = urepo.getByUsername(user.getUsername());
+				if(uentity != null)
+				{
+					if(passwordencoder.matches(user.getPassword(),uentity.getPassword()))
+					{
+						System.out.println("in /checklogin  admin ");
+						//session.setAttribute("user", uentity.getUsername());
+						return "redirect:/adminreport";
+					}
+				}
+				
 			}
 			else
 			{
@@ -239,7 +250,7 @@ public class LoginController {
 		model.addAttribute("userid",user.getId());
 		return "attendancereport";
 	}
-	
+	//@PreAuthorize("hasRole('admin')")
 	@GetMapping("/adminreport")
 	public String getAdminreport(Model model,@AuthenticationPrincipal UserDetails userDetails) 
 	{
@@ -247,6 +258,7 @@ public class LoginController {
 //		{
 //			return "redirect:/";
 //		}
+		System.out.println("in /adminreport  admin ");
 		List<User> lists = urepo.getByUsersWhereRoleisNotAdmin(	);
 		//List<User> lists = urepo.findAll();
 		if(lists != null)

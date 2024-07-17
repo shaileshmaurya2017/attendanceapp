@@ -17,6 +17,6 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 	@Query("SELECT u FROM User u WHERE u.username = :username")
     public User getUserByUsername(@Param("username") String username);
 
-	@Query("SELECT u FROM User u WHERE u.role != 'admin'")
+	@Query("SELECT u FROM User u WHERE u.roles != 'admin'")
 	List<User>  getByUsersWhereRoleisNotAdmin();
 }

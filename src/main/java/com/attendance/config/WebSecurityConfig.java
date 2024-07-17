@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
@@ -22,7 +23,16 @@ import com.attendance.model.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
+//@EnableMethodSecurity
 public class WebSecurityConfig {
+
+	private final UserDetailsServiceImpl userDetailsServiceImpl;
+	
+	
+	public WebSecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl) {
+		
+		this.userDetailsServiceImpl = userDetailsServiceImpl;
+	}
 
 	@Bean
 	BCryptPasswordEncoder passwordEncoder(){	
@@ -31,7 +41,7 @@ public class WebSecurityConfig {
 	
 	 @Bean
 	 UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImpl();
+        return this.userDetailsServiceImpl;
      }
 	 
 	 @Bean
@@ -79,21 +89,25 @@ public class WebSecurityConfig {
 		 			.requestMatchers("/checklogin").permitAll()
 		 			//.requestMatchers("/*").authenticated()
 		 			.anyRequest().authenticated()).build();*/
-		 http.httpBasic(Customizer.withDefaults());
+		 //http.httpBasic(Customizer.withDefaults());
 		 http.authorizeHttpRequests(
-	               // auth -> auth.anyRequest().authenticated()
+	              //  auth -> auth.anyRequest().authenticated();
 	        		Customizer ->{
 	        			//Customizer.requestMatchers("/").authenticated();
-	        			Customizer.requestMatchers("/","/register","/doregister","/checklogin").permitAll();
+	        			Customizer.requestMatchers("/","/register","/doregister","/checklogin","../static/").permitAll();
 	        			Customizer.requestMatchers("/adminreport").hasAuthority("admin");
 	        			Customizer.requestMatchers("/attendencehome").hasAuthority("user");
 	        			//Customizer.requestMatchers("/checklogin").hasAuthority("user","admin");
 	        			Customizer.requestMatchers("/attendancereportadmin/*","/*").authenticated();
 	        			//Customizer.requestMatchers("/*").denyAll();
+	        			Customizer.anyRequest().authenticated();
+	        			
 	        		}
 	        		
 	        		);
-	        http.formLogin(Customizer -> Customizer.loginPage("/"));
+		 
+	        http.formLogin(Customizer -> Customizer.loginPage("/").loginProcessingUrl("/checklogin")
+	    		 	.defaultSuccessUrl("/attendencehome", true));
 			
 			http.csrf(Customizer -> Customizer.disable());
 

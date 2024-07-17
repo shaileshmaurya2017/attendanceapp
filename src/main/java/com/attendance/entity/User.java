@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-//@Table(name = "users")
+@Table(name = "users")
 @Component
 public class User {
 	@Id
@@ -19,7 +19,7 @@ public class User {
 	private int id;
 	private String username;
 	private String password;
-	private String role;
+	private String roles;
     private boolean enabled;
 	private String emailId;
 	private String phoneNO;
@@ -45,11 +45,11 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getRole() {
-		return role;
+	public String getRoles() {
+		return roles;
 	}
-	public void setRole(String role) {
-		this.role = role;
+	public void setRole(String roles) {
+		this.roles = roles;
 	}
 	public boolean isEnabled() {
 		return enabled;
@@ -78,13 +78,13 @@ public class User {
 	
 	public User() {
 	}
-	public User(int id, String username, String password, String role, boolean enabled, String emailId,
+	public User(int id, String username, String password, String roles, boolean enabled, String emailId,
 			String phoneNO, int type) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
-		this.role = role;
+		this.roles = roles;
 		this.enabled = enabled;
 		this.emailId = emailId;
 		this.phoneNO = phoneNO;
@@ -92,7 +92,7 @@ public class User {
 	}
 	@Override
 	public String toString() {
-		return "UserEntity [id=" + id + ", username=" + username + ", password=" + password + ", role=" + role
+		return "UserEntity [id=" + id + ", username=" + username + ", password=" + password + ", role=" + roles
 				+ ", enabled=" + enabled + ", emailId=" + emailId + ", phoneNO=" + phoneNO + ", type=" + type + "]";
 	}
 	
